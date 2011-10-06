@@ -449,21 +449,39 @@ void uart_puts(const char *s )
 
 }/* uart_puts */
 
-
 /*************************************************************************
 Function: uart_puts_p()
 Purpose:  transmit string from program memory to UART
 Input:    program memory string to be transmitted
 Returns:  none
 **************************************************************************/
-void uart_puts_p(const char *progmem_s )
-{
-    register char c;
+void uart_puts_p(const char *progmem_s ) {
+	register char c;
 
-    while ( (c = pgm_read_byte(progmem_s++)) )
-      uart_putc(c);
-
+	while ( (c = pgm_read_byte(progmem_s++)) )
+		uart_putc(c);
 }/* uart_puts_p */
+
+/*************************************************************************
+Function: uart_available()
+Purpose:  Determine the number of bytes waiting in the receive buffer
+Input:    None
+Returns:  Integer number of bytes in the receive buffer
+**************************************************************************/
+int uart_available(void) {
+	return (UART_RX_BUFFER_MASK + UART_RxHead - UART_RxTail) % UART_RX_BUFFER_MASK;
+}/* uart_available */
+
+/*************************************************************************
+Function: uart_flush()
+Purpose:  Flush bytes waiting the receive buffer.  Acutally ignores them.
+Input:    None
+Returns:  None
+**************************************************************************/
+void uart_flush(void)
+{
+        UART_RxHead = UART_RxTail;
+}/* uart_flush */
 
 
 /*
@@ -646,5 +664,36 @@ void uart1_puts_p(const char *progmem_s )
 
 }/* uart1_puts_p */
 
+void uart_doubleSpeed(uint8_t flag) {
+	if (flag)
+		UCSR0A |= (1 << U2X0);
+	else
+		UCSR0A &= ~(1 << U2X0);
+}
+
+
+/*************************************************************************
+Function: uart1_available()
+Purpose:  Determine the number of bytes waiting in the receive buffer
+Input:    None
+Returns:  Integer number of bytes in the receive buffer
+**************************************************************************/
+int uart1_available(void)
+{
+        return (UART_RX_BUFFER_MASK + UART1_RxHead - UART1_RxTail) % UART_RX_BUFFER_MASK;
+}/* uart1_available */
+
+
+
+/*************************************************************************
+Function: uart1_flush()
+Purpose:  Flush bytes waiting the receive buffer.  Acutally ignores them.
+Input:    None
+Returns:  None
+**************************************************************************/
+void uart1_flush(void)
+{
+        UART1_RxHead = UART1_RxTail;
+}/* uart1_flush */
 
 #endif

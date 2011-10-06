@@ -193,6 +193,25 @@ extern void uart1_puts_p(const char *s );
 
 /**@}*/
 
+extern void uart_doubleSpeed(uint8_t flag);
+
+/**
+ *  @brief   Return number of bytes waiting in the receive buffer
+ *  @param   none
+ *  @return  bytes waiting in the receive buffer
+ */
+extern int uart_available(void);
+/**
+ *  @brief   Flush bytes waiting in receive buffer
+ *  @param   none
+ *  @return  none
+ */
+extern void uart_flush(void);
+/** @brief   Return number of bytes waiting in the receive buffer */
+extern int uart1_available(void);
+/** @brief   Flush bytes waiting in receive buffer */
+extern void uart1_flush(void);
+
 
 #endif // UART_H
 
