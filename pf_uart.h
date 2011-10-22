@@ -193,7 +193,7 @@ extern void uart1_puts_p(const char *s );
 
 /**@}*/
 
-extern void uart_doubleSpeed(uint8_t flag);
+extern void uart_doubleSpeed(unsigned char flag);
 
 /**
  *  @brief   Return number of bytes waiting in the receive buffer

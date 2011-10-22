@@ -664,7 +664,7 @@ void uart1_puts_p(const char *progmem_s )
 
 }/* uart1_puts_p */
 
-void uart_doubleSpeed(uint8_t flag) {
+void uart_doubleSpeed(unsigned char flag) {
 	if (flag)
 		UCSR0A |= (1 << U2X0);
 	else
