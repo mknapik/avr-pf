@@ -5,28 +5,28 @@ extern "C" {
 #ifndef UART_H
 #define UART_H
 /************************************************************************
-Title:    Interrupt UART library with receive/transmit circular buffers
-Author:   Peter Fleury <pfleury@gmx.ch>   http://jump.to/fleury
-File:     $Id: uart.h,v 1.8.2.1 2007/07/01 11:14:38 peter Exp $
-Software: AVR-GCC 4.1, AVR Libc 1.4
-Hardware: any AVR with built-in UART, tested on AT90S8515 & ATmega8 at 4 Mhz
-License:  GNU General Public License
-Usage:    see Doxygen manual
+ Title:    Interrupt UART library with receive/transmit circular buffers
+ Author:   Peter Fleury <pfleury@gmx.ch>   http://jump.to/fleury
+ File:     $Id: uart.h,v 1.8.2.1 2007/07/01 11:14:38 peter Exp $
+ Software: AVR-GCC 4.1, AVR Libc 1.4
+ Hardware: any AVR with built-in UART, tested on AT90S8515 & ATmega8 at 4 Mhz
+ License:  GNU General Public License
+ Usage:    see Doxygen manual
 
-LICENSE:
-    Copyright (C) 2006 Peter Fleury
+ LICENSE:
+ Copyright (C) 2006 Peter Fleury
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    any later version.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-************************************************************************/
+ ************************************************************************/
 
 /**
  *  @defgroup pfleury_uart UART Library
@@ -51,15 +51,13 @@ LICENSE:
 
 /**@{*/
 
-
 #if (__GNUC__ * 100 + __GNUC_MINOR__) < 304
 #error "This library requires AVR-GCC 3.4 or later, update to newer AVR-GCC compiler !"
 #endif
 
-
 /*
-** constants and macros
-*/
+ ** constants and macros
+ */
 
 /** @brief  UART Baudrate Expression
  *  @param  xtalcpu  system clock in Mhz, e.g. 4000000L for 4Mhz
@@ -72,7 +70,6 @@ LICENSE:
  *  @param  baudrate baudrate in bps, e.g. 1200, 2400, 9600
  */
 #define UART_BAUD_SELECT_DOUBLE_SPEED(baudRate,xtalCpu) (((xtalCpu)/((baudRate)*8l)-1)|0x8000)
-
 
 /** Size of the circular receive buffer, must be power of 2 */
 #ifndef UART_RX_BUFFER_SIZE
@@ -89,25 +86,23 @@ LICENSE:
 #endif
 
 /*
-** high byte error return code of uart_getc()
-*/
+ ** high byte error return code of uart_getc()
+ */
 #define UART_FRAME_ERROR      0x0800              /* Framing Error by UART       */
 #define UART_OVERRUN_ERROR    0x0400              /* Overrun condition by UART   */
 #define UART_BUFFER_OVERFLOW  0x0200              /* receive ringbuffer overflow */
 #define UART_NO_DATA          0x0100              /* no receive data available   */
 
-
 /*
-** function prototypes
-*/
+ ** function prototypes
+ */
 
 /**
-   @brief   Initialize UART and set baudrate
-   @param   baudrate Specify baudrate using macro UART_BAUD_SELECT()
-   @return  none
-*/
+ @brief   Initialize UART and set baudrate
+ @param   baudrate Specify baudrate using macro UART_BAUD_SELECT()
+ @return  none
+ */
 extern void uart_init(unsigned int baudrate);
-
 
 /**
  *  @brief   Get received byte from ringbuffer
@@ -136,14 +131,12 @@ extern void uart_init(unsigned int baudrate);
  */
 extern unsigned int uart_getc(void);
 
-
 /**
  *  @brief   Put byte to ringbuffer for transmitting via UART
  *  @param   data byte to be transmitted
  *  @return  none
  */
 extern void uart_putc(unsigned char data);
-
 
 /**
  *  @brief   Put string to ringbuffer for transmitting via UART
@@ -155,8 +148,7 @@ extern void uart_putc(unsigned char data);
  *  @param   s string to be transmitted
  *  @return  none
  */
-extern void uart_puts(const char *s );
-
+extern void uart_puts(const char *s);
 
 /**
  * @brief    Put string from program memory to ringbuffer for transmitting via UART.
@@ -169,14 +161,12 @@ extern void uart_puts(const char *s );
  * @return   none
  * @see      uart_puts_P
  */
-extern void uart_puts_p(const char *s );
+extern void uart_puts_p(const char *s);
 
 /**
  * @brief    Macro to automatically put a string constant into program memory
  */
 #define uart_puts_P(__s)       uart_puts_p(PSTR(__s))
-
-
 
 /** @brief  Initialize USART1 (only available on selected ATmegas) @see uart_init */
 extern void uart1_init(unsigned int baudrate);
@@ -185,9 +175,9 @@ extern unsigned int uart1_getc(void);
 /** @brief  Put byte to ringbuffer for transmitting via USART1 (only available on selected ATmega) @see uart_putc */
 extern void uart1_putc(unsigned char data);
 /** @brief  Put string to ringbuffer for transmitting via USART1 (only available on selected ATmega) @see uart_puts */
-extern void uart1_puts(const char *s );
+extern void uart1_puts(const char *s);
 /** @brief  Put string from program memory to ringbuffer for transmitting via USART1 (only available on selected ATmega) @see uart_puts_p */
-extern void uart1_puts_p(const char *s );
+extern void uart1_puts_p(const char *s);
 /** @brief  Macro to automatically put a string constant into program memory */
 #define uart1_puts_P(__s)       uart1_puts_p(PSTR(__s))
 
@@ -212,10 +202,7 @@ extern int uart1_available(void);
 /** @brief   Flush bytes waiting in receive buffer */
 extern void uart1_flush(void);
 
-
 #endif // UART_H
-
-
 #ifdef __cplusplus
 }
 #endif
